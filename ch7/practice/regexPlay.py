@@ -155,27 +155,14 @@ def find_multiple_spaces(text):
 
 
 def find_repeated_words(text):
-    repeated_words_regex = re.compile(r'\w+')
-
-    # searches input text to find all regex matches, else set to None
-    repeated_words = repeated_words_regex.findall(text)
-
-    # stores all non-repeated words
-    words = []
-    for word in repeated_words:
-        # if words array is empty, add current word
-        if not words:
-            words.append(word)
-        
-        # continues if the word at the last index of the words array matches current word
-        # else adds new word to words array
-        if words[-1] == word:
-            continue
-        else:
-            words.append(word)
-
-    # returns a string of non-repeated, spaced words from words array
-    return " ".join(words)
+    # \b: matches word boundary
+    # \1: matches text in group 1
+    # pattern to find repeated words
+    repeated_words_regex = re.compile(r'\b(\w+)( \1\b)+')
+    
+    # substitutes matches of repeated words with just the first match group
+    # returns a string of non-repeated words
+    return re.sub(repeated_words_regex, r'\1', text)
 
 
 # TEST CASES
