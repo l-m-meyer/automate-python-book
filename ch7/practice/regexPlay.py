@@ -127,5 +127,17 @@ censor_info("123.456.789")
 #   - accidentally repeated words
 #   - multiple exclaimation marks at the end of sentences
 def fix_typos(text):
-    multiple_spaces_regex = re.compile(r'\s\s*')
-    repeated_words_regex = re.compile(r'\w+')
+    multiple_spaces_regex = re.compile(r'(\s)(\s+)')
+    repeated_words_regex = re.compile(r'(\w+)*')
+
+    too_many_spaces = multiple_spaces_regex.search(text)
+
+    if too_many_spaces:
+        print(f"Before: '{text}', After: '{re.sub(' +', ' ', text)}'")
+    else:
+        print(f'VALID INPUT: {text}')
+
+# TEST CASES
+fix_typos('I  have  too  many  spaces.')
+fix_typos('hello hello')
+fix_typos('space spaces  spacess   spacesss    space ')
