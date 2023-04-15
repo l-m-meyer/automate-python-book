@@ -1,7 +1,8 @@
 #! python3
 # regexPlay.py - Validating different types of input using regex.
 
-import pyperclip, re
+import re
+
 
 # Find website URLs that begin with http:// or https://
 def validate_url(url):
@@ -13,6 +14,7 @@ def validate_url(url):
         print(f'${url} is a valid url')
     else:
         print(f'{url} is NOT a valid url')
+
 
 # TEST CASES
 # passing
@@ -91,11 +93,12 @@ def censor_info(data):
     data_SIN = re.compile(r'\d{3}\-\d{3}\-\d{3}')
     data_SSN = re.compile(r'\d{9}')
 
-
+    # censors matched regex via substitution
     valid_CC = data_CC.sub('**** **** **** ****', data)
     valid_SIN = data_SIN.sub('***-***-***', data)
     valid_SSN = data_SSN.sub('*** *** ***', data)
 
+    # determines the type of data input and returns if true
     if '*' in valid_CC:
         print(f'CC: {valid_CC}')
         return
@@ -110,12 +113,12 @@ def censor_info(data):
 
 # TEST CASES
 # passing
-censor_info("123456789")
-censor_info("123-456-789")
-censor_info("1234567890123456")
-censor_info("1234 5678 9012 3456")
-censor_info("123456789012345")
-censor_info("12345 67890 12345")
+censor_info("123456789")            # SSN
+censor_info("123-456-789")          # SIN
+censor_info("1234567890123456")     # CC
+censor_info("1234 5678 9012 3456")  # CC
+censor_info("123456789012345")      # CC
+censor_info("12345 67890 12345")    # CC
 # failing
 censor_info("abcdefghi")
 censor_info("m23mwswe3")
@@ -127,17 +130,58 @@ censor_info("123.456.789")
 #   - accidentally repeated words
 #   - multiple exclaimation marks at the end of sentences
 def fix_typos(text):
-    multiple_spaces_regex = re.compile(r'(\s)(\s+)')
-    repeated_words_regex = re.compile(r'(\w+)*')
-
-    too_many_spaces = multiple_spaces_regex.search(text)
-
-    if too_many_spaces:
-        print(f"Before: '{text}', After: '{re.sub(' +', ' ', text)}'")
+    result = find_multiple_spaces(text)
+    
+    # if result is not None, function consumes result with removed spaces
+    # else function consumes original text
+    if result:
+        result = find_repeated_words(result)
     else:
-        print(f'VALID INPUT: {text}')
+        result = find_repeated_words(text)
+
+    print(f'BEFORE: {text}\nAFTER: {result}')
+    print()
+
+
+def find_multiple_spaces(text):
+    multiple_spaces_regex = re.compile(r'(\s)(\s+)')
+
+    # searches input text to set to match object, else set to None
+    too_many_spaces = multiple_spaces_regex.search(text)
+    
+    if too_many_spaces:
+        # substitutes found extra spaces with a single space in text
+        return re.sub(' +', ' ', text)
+
+
+def find_repeated_words(text):
+    repeated_words_regex = re.compile(r'\w+')
+
+    # searches input text to find all regex matches, else set to None
+    repeated_words = repeated_words_regex.findall(text)
+
+    # stores all non-repeated words
+    words = []
+    for word in repeated_words:
+        # if words array is empty, add current word
+        if not words:
+            words.append(word)
+        
+        # continues if the word at the last index of the words array matches current word
+        # else adds new word to words array
+        if words[-1] == word:
+            continue
+        else:
+            words.append(word)
+
+    # returns a string of non-repeated, spaced words from words array
+    return " ".join(words)
+
 
 # TEST CASES
 fix_typos('I  have  too  many  spaces.')
 fix_typos('hello hello')
+fix_typos('hello     hello')
 fix_typos('space spaces  spacess   spacesss    space ')
+fix_typos('text text text text hi')
+fix_typos('text text hi text text hi')
