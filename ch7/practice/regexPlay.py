@@ -144,14 +144,8 @@ def fix_typos(text):
 
 
 def find_multiple_spaces(text):
-    multiple_spaces_regex = re.compile(r'(\s)(\s+)')
-
-    # searches input text to set to match object, else set to None
-    too_many_spaces = multiple_spaces_regex.search(text)
-    
-    if too_many_spaces:
-        # substitutes found extra spaces with a single space in text
-        return re.sub(' +', ' ', text)
+    # substitutes extra spaces with a single space in text
+    return re.sub(' +', ' ', text)
 
 
 def find_repeated_words(text):
