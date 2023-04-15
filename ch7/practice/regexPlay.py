@@ -156,7 +156,7 @@ def find_repeated_words(text):
     
     # substitutes matches of repeated words with just the first match group
     # returns a string of non-repeated words
-    return re.sub(repeated_words_regex, r'\1', text)
+    return repeated_words_regex.sub(r'\1', text)
 
 
 # TEST CASES
