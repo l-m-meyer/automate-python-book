@@ -39,6 +39,18 @@ def detect_date(date):
     if month in [4, 6, 9, 11] and day == 31:
         return
 
+    # February has 28 days, 29 days if a leap year
+    if month == 2 and day > 28:
+        # check if year is not a leap year
+        if day == 29 \
+            and (year % 4 != 0 \
+            and year % 100 == 0) \
+            or year % 400 != 0:
+                print(False, date)
+                return
+        
+        return
+
     
     print(f'{str(day).zfill(2)}/{month}/{year}')
 
@@ -51,6 +63,8 @@ detect_date('01/04/2023')
 detect_date('01/06/2023')
 detect_date('01/09/2023')
 detect_date('01/11/2023')
+detect_date('29/02/2000')
+detect_date('28/02/2001')
 
 # failing
 detect_date('3/3/1000')
@@ -60,3 +74,6 @@ detect_date('31/04/2023')
 detect_date('31/06/2023')
 detect_date('31/09/2023')
 detect_date('31/11/2023')
+detect_date('29/02/1900')
+detect_date('29/02/1901')
+detect_date('31/02/1901')
