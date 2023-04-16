@@ -15,3 +15,11 @@ def detect_date(date):
     )''', re.VERBOSE)
 
     valid_date = date_regex.findall(date)
+
+    if not valid_date:
+        return
+
+    # assign date values and convert to integers
+    day = int(valid_date[0][1])
+    month = int(valid_date[0][3])
+    year = int(valid_date[0][5])
