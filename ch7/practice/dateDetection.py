@@ -34,6 +34,11 @@ def detect_date(date):
     if not (1000 <= year and year <= 2999):
         return
 
+    # validate special case date ranges
+    # April, June, September, and November have 30 days
+    if month in [4, 6, 9, 11] and day == 31:
+        return
+
     
     print(f'{str(day).zfill(2)}/{month}/{year}')
 
@@ -43,8 +48,15 @@ def detect_date(date):
 detect_date('03/11/1999')
 detect_date('21/11/1999')
 detect_date('01/04/2023')
+detect_date('01/06/2023')
+detect_date('01/09/2023')
+detect_date('01/11/2023')
 
 # failing
 detect_date('3/3/1000')
 detect_date('03/33/1000')
 detect_date('03/12/3000')
+detect_date('31/04/2023')
+detect_date('31/06/2023')
+detect_date('31/09/2023')
+detect_date('31/11/2023')
