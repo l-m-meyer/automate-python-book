@@ -41,15 +41,14 @@ def detect_date(date):
 
     # February has 28 days, 29 days if a leap year
     if month == 2 and day > 28:
-        # check if year is not a leap year
+        # check if year is a leap year
         if day == 29 \
-            and (year % 4 != 0 \
-            and year % 100 == 0) \
-            or year % 400 != 0:
-                print(False, date)
-                return
-        
-        return
+            and (year % 4 == 0 \
+            and year % 100 != 0) \
+            or year % 400 == 0:
+                pass
+        else:
+            return
 
     
     print(f'{str(day).zfill(2)}/{month}/{year}')
