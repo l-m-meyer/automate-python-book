@@ -11,7 +11,8 @@ def generate_question(qnum):
         num1 = random.randint(0,9)
         num2 = random.randint(0,9)
 
-        return f'#{qnum}: {num1} x {num2} = '
+        prompt = f'#{qnum}: {num1} x {num2} = '
+        return prompt, num1, num2
 
 
 if __name__ == '__main__':
@@ -19,8 +20,11 @@ if __name__ == '__main__':
     correctAnswers = 0
 
     for questionNumber in range(numberOfQuestions):
-        prompt = generate_question(questionNumber)
-
+        q = generate_question(questionNumber)
+        prompt = q[0]
+        num1 = q[1]
+        num2 = q[2]
+        
         try:
             # right answers are handled by allowRegexes
             # wrong answers are handled by blockRegexes, with a custom message
