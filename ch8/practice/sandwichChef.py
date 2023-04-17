@@ -8,7 +8,8 @@ import pyinputplus as pyip
 def make_me_a_sandwich():
     bread, total = bread_choice()
     protein, total = protein_choice(total)
-    print(bread, protein, total)
+    cheese, total = cheese_choice(total)
+    print(bread, protein, cheese, total)
 
 
 def bread_choice():
@@ -30,6 +31,16 @@ def protein_choice(cost):
     else:
         cost += 3.95
 
+    return choice, cost
+
+
+def cheese_choice(cost):
+    choice = pyip.inputYesNo('Would you like some cheese?\n')
+
+    if choice == 'yes':
+        choice = pyip.inputMenu(['cheddar', 'swiss', 'mozzarella'])
+        cost += 1.50
+    
     return choice, cost
 
 
