@@ -6,7 +6,8 @@ import re
 
 
 def stripR(str, char=' '):
-    print(f'"{str}", "{char}"')
+    print(f'BEFORE: "{str}", "{char}"')
+    print(f'AFTER: "{re.sub(char, "", str)}"')
 
 
 stripR(' string ')
