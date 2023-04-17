@@ -6,8 +6,11 @@ import re
 
 
 def stripR(str, char=' '):
+    # remove matching character(s) found at beginning of string
     strip_left = re.sub(f"^{char}+", "", str)
+    # remove matching charater(s) found at end of strip_left string
     result = re.sub(f"{char}+$", "", strip_left)
+    
     print(f'BEFORE: "{str}", "{char}"')
     print(f'AFTER: "{result}"')
     print()
