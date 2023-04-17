@@ -6,22 +6,31 @@ import pyinputplus as pyip
 
 
 def make_me_a_sandwich():
-    bread, cost = bread_choice()
-    
-    print(bread, cost)
+    bread, total = bread_choice()
+    protein, total = protein_choice(total)
+    print(bread, protein, total)
 
 
 def bread_choice():
-    prompt = pyip.inputMenu(['wheat', 'white', 'sourdough'])
+    choice = pyip.inputMenu(['wheat', 'white', 'sourdough'])
     
-    if prompt == 'wheat':
+    if choice in ['wheat', 'white']:
         cost = 2.25
-    elif prompt == 'white':
-        cost = 2.20
     else:
         cost = 3.00
 
-    return prompt, cost
+    return choice, cost
+
+
+def protein_choice(cost):
+    choice = pyip.inputMenu(['chicken', 'turkey', 'ham', 'tofu'])
+
+    if choice in ['chicken', 'turkey', 'ham']:
+        cost += 4.50
+    else:
+        cost += 3.95
+
+    return choice, cost
 
 
 if __name__ == '__main__':
