@@ -9,7 +9,8 @@ def make_me_a_sandwich():
     bread, total = bread_choice()
     protein, total = protein_choice(total)
     cheese, total = cheese_choice(total)
-    print(bread, protein, cheese, total)
+    condiments, total = condiment_choice(total)
+    print(bread, protein, cheese, condiments, total)
 
 
 def bread_choice():
@@ -42,6 +43,18 @@ def cheese_choice(cost):
         cost += 1.50
     
     return choice, cost
+
+
+def condiment_choice(cost, toppings=[]):
+    choice = pyip.inputYesNo('Would you like any more toppings?\n')
+
+    if choice == 'yes':
+        choice = pyip.inputMenu(['mayo', 'mustard', 'lettuce', 'tomato'])
+        toppings.append(choice)
+        cost += 0.5
+        return condiment_choice(cost, toppings)
+    
+    return toppings, cost
 
 
 if __name__ == '__main__':
