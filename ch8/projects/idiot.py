@@ -1,5 +1,5 @@
 #! python3
-# idiot.py - How to keep an idito busy for hours.
+# idiot.py - How to keep an idiot busy for hours.
 
 
 import pyinputplus as pyip
