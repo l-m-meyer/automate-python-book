@@ -10,7 +10,14 @@ def make_me_a_sandwich():
     protein, total = protein_choice(total)
     cheese, total = cheese_choice(total)
     condiments, total = condiment_choice(total)
-    print(bread, protein, cheese, condiments, total)
+    sandwiches, total = num_of_sandwiches(total)
+    
+    print(f'''Your order is for {sandwiches} sandwiches each with the following:
+        bread: {bread},
+        protein: {protein},
+        cheese: {cheese},
+        condiments: {*condiments,}
+    For a total of ${total}''')
 
 
 def bread_choice():
@@ -55,6 +62,13 @@ def condiment_choice(cost, toppings=[]):
         return condiment_choice(cost, toppings)
     
     return toppings, cost
+
+
+def num_of_sandwiches(cost):
+    choice = pyip.inputInt('How many sandwiches do you want?\n', min=1)
+    total = choice * cost
+    
+    return choice, round(total, 2)
 
 
 if __name__ == '__main__':
