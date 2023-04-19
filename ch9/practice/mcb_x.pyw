@@ -1,15 +1,17 @@
 #! python3
 # mcb.pyw = Saves and loads pieces of text to the clipboard.
-# Usage: py.exe mcb.pyw save <keyword> - Saves clipboard to keyword.
-#        py.exe mcb.pyw <keyword> - Loads keyword to clipboard.
-#        py.exe mcb.pyw list - Loads all keywords to clipboard.
+# Usage: py.exe mcb_x.pyw save <keyword> - Saves clipboard to keyword.
+#        py.exe mcb_x.pyw <keyword> - Loads keyword to clipboard.
+#        py.exe mcb_x.pyw list - Loads all keywords to clipboard.
+#        py.exe mcb_x.pyw delete <keyword> - Deletes a keyword from the shelf.
+#        py.exe mcb_x.pyw delete - Deletes all keywords from the shelf.
 
 
 import shelve, pyperclip, sys
 
 
 def start():
-    mcbShelf = shelve.open('mcb')
+    mcbShelf = shelve.open('mcb_x')
     process(mcbShelf)
     mcbShelf.close()
 
@@ -24,6 +26,9 @@ def process(file):
             pyperclip.copy(str(list(file.keys())))
         elif sys.argv[1] in file:
             pyperclip.copy(file[sys.argv[1]])
+    elif len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
+        # Deletes a keyword from the shelf.
+        del file[sys.argv[2]]
 
 
 if __name__ == '__main__':
