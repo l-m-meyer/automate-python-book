@@ -3,6 +3,7 @@
 # ADJECTIVE, NOUN, ADVERB, or VERB appears in the text file.
 
 
+import pyinputplus as pyip
 import re
 
 
@@ -10,6 +11,7 @@ def mad_libs():
     ml = open('./madlib.txt')
     content = ml.read()
     parts_of_speech = find_parts_of_speech(content)
+    replace_pos(parts_of_speech)
 
 
 def find_parts_of_speech(text):
@@ -18,20 +20,15 @@ def find_parts_of_speech(text):
     return found_pos
 
 
-def get_adjective():
-    return
+def replace_pos(pos):
+    for word in pos:
+        prompt = f'Enter {"an" if word.lower()[0] == "a" else "a"} {word.lower()}\n'
+        response = pyip.inputStr(prompt)
+        
+    
 
 
-def get_noun():
-    return
 
-
-def get_verb():
-    return
-
-
-def get_adverb():
-    return
 
 
 
