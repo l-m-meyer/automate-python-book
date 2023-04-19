@@ -8,17 +8,23 @@
 import shelve, pyperclip, sys
 
 
-mcbShelf = shelve.open('mcb')
+def start():
+    mcbShelf = shelve.open('mcb')
+    process(mcbShelf)
+    mcbShelf.close()
 
 
-if len(sys.argv) == 3 and sys.argv[1].lower() == 'save':
-    # Save clipboard content.
-    mcbShelf[sys.argv[2]] = pyperclip.paste()
-elif len(sys.argv) == 2:
-    # List keywords and load content.
-    if sys.argv[1].lower() == 'list':
-        pyperclip.copy(str(list(mcbShelf.keys())))
-    elif sys.argv[1] in mcbShelf:
-        pyperclip.copy(mcbShelf[sys.argv[1]])
+def process(file):
+    if len(sys.argv) == 3 and sys.argv[1].lower() == 'save':
+        # Save clipboard content.
+        file[sys.argv[2]] = pyperclip.paste()
+    elif len(sys.argv) == 2:
+        # List keywords and load content.
+        if sys.argv[1].lower() == 'list':
+            pyperclip.copy(str(list(file.keys())))
+        elif sys.argv[1] in file:
+            pyperclip.copy(file[sys.argv[1]])
 
-mcbShelf.close()
+
+if __name__ == '__main__':
+    start()
