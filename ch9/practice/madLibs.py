@@ -3,15 +3,19 @@
 # ADJECTIVE, NOUN, ADVERB, or VERB appears in the text file.
 
 
+import re
+
 
 def mad_libs():
     ml = open('./madlib.txt')
     content = ml.read()
-    
+    parts_of_speech = find_parts_of_speech(content)
 
 
-def process_text(text):
-    return
+def find_parts_of_speech(text):
+    pos_pattern = re.compile(r'ADJECTIVE|NOUN|ADVERB|VERB')
+    found_pos = pos_pattern.findall(text)
+    return found_pos
 
 
 def get_adjective():
