@@ -17,16 +17,25 @@ def start():
 
 
 def process(file):
+    # Save clipboard content.
     if len(sys.argv) == 3 and sys.argv[1].lower() == 'save':
-        # Save clipboard content.
         file[sys.argv[2]] = pyperclip.paste()
-    elif len(sys.argv) == 2:
-        # List keywords and load content.
+    
+    if len(sys.argv) == 2:
+        # List keywords.
         if sys.argv[1].lower() == 'list':
             pyperclip.copy(str(list(file.keys())))
-        elif sys.argv[1] in file:
+        
+        # Load content.
+        if sys.argv[1] in file:
             pyperclip.copy(file[sys.argv[1]])
-    elif len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
+        
+        # Delete all keywords.
+        if sys.argv[1].lower() == 'delete':
+            for key in list(file.keys()):
+                del file[key]
+    
+    if len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
         # Deletes a keyword from the shelf.
         del file[sys.argv[2]]
 
