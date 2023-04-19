@@ -3,23 +3,25 @@
 # random order, along with the answer key.
 
 
-import random
+import random, re
 
 
-def start_quiz(data, quiz_name):
-    # Generate 35 quiz files.
-    for quizNum in range(35):
-        quizFile, answerKeyFile = generate_quiz_files(quiz_name, quizNum)
+def start_quiz(data, quiz_topic, quiz_title, num_questions):
+    # Generate quiz files.
+    for quizNum in range(num_questions):
+        quizFile, answerKeyFile = generate_quiz_files(quiz_topic, quiz_title, quizNum)
+        get_questions_answers(data, quizFile, answerKeyFile)
 
 
-    # Shuffle the order of the states.
-    states = list(data.keys())
-    random.shuffle(states)
+def get_questions_answers(data, quizFile, answerKeyFile):
+    # Shuffle the order of the subjects.
+    subjects = list(data.keys())
+    random.shuffle(subjects)
 
-    # Loop through all 50 states, making a question for each.
-    for questionNum in range(50):
+    # Loop through all subjects, making a question for each.
+    for questionNum in range(len(data)):
         # Get right and wrong answers.
-        correctAnswer = data[states[questionNum]]
+        correctAnswer = data[subjects[questionNum]]
         wrongAnswers = list(data.values())
         
         del wrongAnswers[wrongAnswers.index(correctAnswer)]
@@ -28,31 +30,36 @@ def start_quiz(data, quiz_name):
         answerOptions = wrongAnswers + [correctAnswer]
         random.shuffle(answerOptions)
 
+        quizFile, answerKeyFile = write_to_files(subjects, questionNum, quizFile, answerKeyFile, correctAnswer, answerOptions)
 
-        # Write the question and answer options to the quiz file.
-        quizFile.write(f'{questionNum + 1}. What is the capital of {states[questionNum]}?\n')
-        for i in range(4):
-            quizFile.write(f"   {'ABCD'[i]}. {answerOptions[i]}\n")
-            quizFile.write('\n')
-
-        # Write the answer key to a file.
-        answerKeyFile.write(f"{questionNum + 1}. {'ABCD'[answerOptions.index(correctAnswer)]}\n")
     quizFile.close()
     answerKeyFile.close()
 
 
-def generate_quiz_files(quiz_name, quizNum):
-    # Create the quiz and answer key files.
-    quizFile = open(f'{quiz_name}quiz{quizNum + 1}.txt', 'w')
-    answerKeyFile = open(f'{quiz_name}quiz_answers{quizNum + 1}.txt', 'w')
+def write_to_files(subjects, questionNum, quizFile, answerKeyFile, correctAnswer, answerOptions):
+    # Write the question and answer options to the quiz file.
+    quizFile.write(f'{questionNum + 1}. What is the {re.sub("s$", "", quiz_topic)} of {subjects[questionNum]}?\n')
+    for i in range(4):
+        quizFile.write(f"   {'ABCD'[i]}. {answerOptions[i]}\n")
+        quizFile.write('\n')
 
-    # Write out the header for the quiz.
-    quizFile.write('Name:\nDate:\n\nPeriod:\n\n')
-    quizFile.write((' ' * 20) + f'State Capitals Quiz (Form{quizNum + 1})')
-    quizFile.write('\n\n')
+    # Write the answer key to a file.
+    answerKeyFile.write(f"{questionNum + 1}. {'ABCD'[answerOptions.index(correctAnswer)]}\n")
 
     return quizFile, answerKeyFile
 
+
+def generate_quiz_files(quiz_topic, quiz_title, quizNum):
+    # Create the quiz and answer key files.
+    quizFile = open(f'{quiz_topic}quiz{quizNum + 1}.txt', 'w')
+    answerKeyFile = open(f'{quiz_topic}quiz_answers{quizNum + 1}.txt', 'w')
+
+    # Write out the header for the quiz.
+    quizFile.write('Name:\nDate:\n\nPeriod:\n\n')
+    quizFile.write((' ' * 20) + f'{quiz_title} Quiz (Form{quizNum + 1})')
+    quizFile.write('\n\n')
+
+    return quizFile, answerKeyFile
 
 
 if __name__ == '__main__':
@@ -74,5 +81,7 @@ if __name__ == '__main__':
    'Texas': 'Austin', 'Utah': 'Salt Lake City', 'Vermont': 'Montpelier',
    'Virginia': 'Richmond', 'Washington': 'Olympia', 'West Virginia': 'Charleston',
    'Wisconsin': 'Madison', 'Wyoming': 'Cheyenne'}
-    quiz_name = 'capitals'
-    start_quiz(capitals, quiz_name)
+    quiz_topic = 'capitals'
+    quiz_title = 'State Capitals'
+    num_questions = 35
+    start_quiz(capitals, quiz_topic, quiz_title, num_questions)
