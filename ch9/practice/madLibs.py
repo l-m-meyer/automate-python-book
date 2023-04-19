@@ -8,11 +8,12 @@ import re
 
 
 def mad_libs():
-    ml = open('./madlib.txt')
+    ml = open('./madlib.txt', 'r')
     text = ml.read()
     parts_of_speech = find_parts_of_speech(text)
-    text = replace_pos(parts_of_speech, text)
-
+    replace_pos(parts_of_speech, text)
+    ml.close()
+    
 
 def find_parts_of_speech(text):
     pos_pattern = re.compile(r'ADJECTIVE|NOUN|ADVERB|VERB')
@@ -26,8 +27,14 @@ def replace_pos(pos, text):
         response = pyip.inputStr(prompt)
         
         text = re.sub(word, response, text, 1)
-    return text
-    
+    write_mad_lib(text)
+
+
+def write_mad_lib(text):
+    ml = open('./madlib_result.txt', 'w')
+    ml.write(text)
+    ml.close()
+
 
 if __name__ == '__main__':
     mad_libs()
