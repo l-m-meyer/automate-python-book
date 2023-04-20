@@ -12,12 +12,8 @@ def main():
     user_regex = get_user_regex()
     user_path = get_user_path()
     search_files(user_regex, user_path)
-    # get number of files in a folder
-        # open each .txt file in folder
-        # read each line in file
-        # if user regex in file line
-            # print line
-    print(user_regex, user_path)
+    
+    return
 
 
 def get_user_regex():
@@ -36,6 +32,15 @@ def get_user_path():
 
 
 def search_files(pattern, fpath):
+    files = os.listdir(fpath)
+    
+    for file in files:
+        if file.endswith('.txt'):
+            # open each .txt file in folder
+            print(file)
+            # read each line in file
+            # if user regex in file line
+                # print line
     return
 
 
