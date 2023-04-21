@@ -24,17 +24,20 @@ for amerFilename in os.listdir('.'):
         continue
 
     # Get the different parts of the filename
-    beforePart  = mo.group(1)
-    monthPart   = mo.group(2)
-    dayPart     = mo.group(4)
-    yearPart    = mo.group(6)
-    afterPart   = mo.group(8)
+    before  = mo.group(1)
+    month   = mo.group(2)
+    day     = mo.group(4)
+    year    = mo.group(6)
+    after   = mo.group(8)
 
+    # Form the European-style filename
+    euroFilename = f'{before}{day}-{month}-{year}{after}'
 
-# TODO: Form the European-style filename
+    # Get the full, absolute file paths
+    absWorkingDir = os.path.abspath('.')
+    amerFilename = os.path.join(absWorkingDir, amerFilename)
+    euroFilename = os.path.join(absWorkingDir, euroFilename)
 
-
-# TODO: Get the full, absolute file paths
-
-
-# TODO: Rename the files
+    # Rename the files
+    print(f'Renaming "{amerFilename}" to "{euroFilename}"...')
+    # shutil.move(amerFilename, euroFilename)         # uncomment after testing
