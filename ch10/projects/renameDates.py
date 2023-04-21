@@ -15,10 +15,25 @@ datePattern = re.compile(r"""^(.*?)     # all text before the date
     """, re.VERBOSE)
 
 
-# TODO: call os.listdir() to find all the files in the working directory
+# Loop over the files in the working directory
+for amerFilename in os.listdir('.'):
+    mo = datePattern.search(amerFilename)
+
+    # Skip files without a date
+    if mo == None:
+        continue
+
+    # Get the different parts of the filename
+    beforePart  = mo.group(1)
+    monthPart   = mo.group(2)
+    dayPart     = mo.group(3)
+    yearPart    = mo.group(4)
+    afterPart   = mo.group(8)
+
+# TODO: Form the European-style filename
 
 
-# TODO: Loop over each filename, using the regex to check whether it has a date
+# TODO: Get the full, absolute file paths
 
 
-# TODO: If it has a date, rename the file with shutil.move()
+# TODO: Rename the files
