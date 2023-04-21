@@ -22,7 +22,9 @@ def backupToZip(folder):
         number += 1
 
 
-    # TODO: create the ZIP file
+    # create the ZIP file
+    print(f'Creating {zipFilename}...')
+    backupZip = zipfile.ZipFile(zipFilename, 'w')
 
 
     # TODO: walk the entire folder tree and compress the files in each folder.
