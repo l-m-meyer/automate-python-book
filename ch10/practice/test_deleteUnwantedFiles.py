@@ -39,6 +39,12 @@ class TestCompareFileSize:
         
         assert not file > 100
 
+    
+    def test_file_returns_float(self):
+        file = get_file_size_in_MB(test_small_file)
+        
+        assert type(file) is float
+
 
 class TestGetLargeFiles:
     def test_get_large_files(self):
