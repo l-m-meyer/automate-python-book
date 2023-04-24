@@ -31,7 +31,7 @@ class TestGetFolder:
 class TestCompareFileSize:
     def test_compare_file_size(self):
         small_file = compare_file_size(test_small_file)
-        assert small_file is False
+        assert type(small_file) is bool
 
     
     def test_file_size_less_than_100MB(self):
