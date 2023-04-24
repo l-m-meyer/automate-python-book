@@ -5,7 +5,12 @@
 import os
 
 
+def get_folder():
+    pass
+
+
 def main():
+    folder = get_folder()
     pass
 
 
