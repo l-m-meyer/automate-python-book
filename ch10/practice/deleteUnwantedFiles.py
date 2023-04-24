@@ -8,7 +8,7 @@ import os
 
 def get_folder():
     """Gets folder from user to process for large, unwanted files."""
-    folder = pyip.inputFilepath('Enter a filepath for folder to copy: ', mustExist=True)
+    folder = pyip.inputFilepath('Enter a filepath for folder to search for large files: ', mustExist=True)
 
     if not os.path.exists(folder):
         print('Filepath is invalid.')
@@ -17,13 +17,26 @@ def get_folder():
     return os.path.abspath(folder)
 
 
+def get_large_files(folder):
+    large_files = []
+
+    for foldername, subfolders, filenames in os.walk(folder):
+        for file in filenames:
+            fpath = os.path.join(foldername, file)
+
+            file_size_over_100MB = compare_file_size(fpath)
+            if file_size_over_100MB:
+                large_files.append(fpath)
+    return large_files
+
+
 def compare_file_size(file):
     """Gets size of file and returns file name if less than 100MB."""
     file_size = get_file_size_in_MB(file)
     
     if file_size <= 100:
-        return
-    return file
+        return False
+    return True
 
 
 def get_file_size_in_MB(file):
@@ -35,7 +48,8 @@ def get_file_size_in_MB(file):
 
 def main():
     folder = get_folder()
-    pass
+    large_files = get_large_files(folder) 
+    print(large_files)
 
 
 if __name__ == "__main__":
