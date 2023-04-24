@@ -33,6 +33,10 @@ class TestCompareFileSize:
         small_file = compare_file_size(test_small_file)
         assert type(small_file) is bool
 
+
+    def test_calls_get_file_size_in_MB(self):
+        assert callable(get_file_size_in_MB) 
+
     
     def test_file_size_less_than_100MB(self):
         file = get_file_size_in_MB(test_small_file)
