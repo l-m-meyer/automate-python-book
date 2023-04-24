@@ -35,7 +35,7 @@ def compare_file_size(file):
     """Gets size of file and returns True if file size is less than 100MB, False otherwise."""
     file_size = get_file_size_in_MB(file)
     
-    if file_size <= 0:
+    if file_size <= 100:
         return False
     return True
 
