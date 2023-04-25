@@ -3,13 +3,14 @@
 
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 browser = webdriver.Chrome()
 browser.get('https://inventwithpython.com')
 
 try:
-    elem = browser.find_element_by_class_name('display-3')
+    elem = browser.find_element(By.CLASS_NAME, 'jumbotron')
     print(f'Found {elem.tag_name} element with that class name!')
 except:
     print('Was not able to find an element with that name.')
