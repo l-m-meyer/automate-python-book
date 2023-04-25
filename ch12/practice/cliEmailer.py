@@ -90,6 +90,7 @@ def open_email_client(client):
 def login_email(email, password):
     try:
         email_login = browser.find_element(By.XPATH, '//input[@type="email"]')
+        email_login.send_keys(email)
         print('Success!')
     except:
         print('Faliure...')
