@@ -5,6 +5,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 import pyinputplus as pyip
 import sys,re
 
@@ -59,11 +61,38 @@ def get_email_client(email):
     return client
 
 
-# TODO: navigate to email client
+# get sender credentials
+def get_sender_credentials():
+    email = get_email()
+    password = get_password()
+    client = get_email_client(email)
+    return email, password, client
 
 
+# navigate to email client
+def open_email_client(client):
+    try:
+        # connect
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--incognito')
+        chrome_options.add_argument('--disable-webgl')
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        chrome_options.add_experimental_option('detach', True)
+        service = Service('chromedriver.exe')
+        global browser
+        browser = webdriver.Chrome(service=service, options=chrome_options)
+        browser.get(f'https://{client}')
+    except Exception as e:
+        print(str(e))
 
-# TODO: login to user email
+
+# login to user email
+def login_email(email, password):
+    try:
+        email_login = browser.find_element(By.XPATH, '//input[@type="email"]')
+        print('Success!')
+    except:
+        print('Faliure...')
 
 
 # TODO: create new message
@@ -78,18 +107,19 @@ def get_email_client(email):
 # TODO: populate email and message body
 
 
-# TODO: send email
-
-
 # TODO: close browser
+
+
+# send email
+def send_email(to_email, msg, from_email, user_pass, client):
+    open_email_client(client)
+    login_email(from_email, user_pass)
 
 
 def main():
     to_email, msg = get_recipient_msg()
-    user_email = get_email()
-    user_pass = get_password()
-    client = get_email_client(user_email)
-    return
+    from_email, user_pass, client = get_sender_credentials()
+    send_email(to_email, msg, from_email, user_pass, client)
 
 
 if __name__== '__main__':
