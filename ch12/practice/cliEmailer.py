@@ -45,11 +45,22 @@ def get_email():
     check = validate_email(email)
     if not check:
         return get_email()
+    return email
 
 
 # get password and validate input
 def get_password():
     return pyip.inputPassword('Please enter your email password: ')
+
+
+# get sender email client
+def get_email_client(email):
+    client = email.split('@')[1]
+    return client
+
+
+# TODO: navigate to email client
+
 
 
 # TODO: login to user email
@@ -77,6 +88,7 @@ def main():
     to_email, msg = get_recipient_msg()
     user_email = get_email()
     user_pass = get_password()
+    client = get_email_client(user_email)
     return
 
 
