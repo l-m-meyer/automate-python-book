@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import pyinputplus as pyip
-import sys,re
+import sys,re, time
 
 
 # get email and message string from command line arguments
@@ -86,14 +86,62 @@ def open_email_client(client):
         print(str(e))
 
 
-# login to user email
-def login_email(email, password):
+# enters email credentials into correct input field
+def enter_email(email):
     try:
         email_login = browser.find_element(By.XPATH, '//input[@type="email"]')
         email_login.send_keys(email)
-        print('Success!')
+        print('Email entered... Success!')
+        time.sleep(5)
     except:
-        print('Faliure...')
+        print('Faliure in email input...')
+
+
+# enters password credentials into correct input field
+def enter_password(password):
+    try:
+        password_login = browser.find_element(By.XPATH, '//input[@type="password"]')
+        password_login.send_keys(password)
+        print('Password entered... Success!')
+        password_login.submit()
+    except:
+        print('Failure in password input...')
+
+
+# finds and clicks "next" button for login flow
+def click_next():
+    try:
+        next_button = browser.find_element(By.TAG_NAME, 'button')
+        next_button.click()
+        print('Next button clicked... Success!')
+        time.sleep(5)
+    except:
+        print('No next button...')
+
+
+# finds and clicks "sign in" button for login flow
+def click_sign_in():
+    try:
+        sign_in = browser.find_element(By.LINK_TEXT, 'Sign in')
+        sign_in.click()
+    except:
+        pass
+
+
+# login to user email
+def login_to_email(email, password):
+    click_sign_in()
+    enter_email(email)
+    click_next()
+    
+    try:
+        enter_email(email)
+    except:
+        enter_password(password)
+    finally:
+        click_next()
+        time.sleep(5)
+        enter_password(password)
 
 
 # TODO: create new message
@@ -114,7 +162,7 @@ def login_email(email, password):
 # send email
 def send_email(to_email, msg, from_email, user_pass, client):
     open_email_client(client)
-    login_email(from_email, user_pass)
+    login_to_email(from_email, user_pass)
 
 
 def main():
