@@ -7,8 +7,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 
-# TODO: navigate to game website
-# https://gabrielecirulli.github.io/2048/
+# navigate to game website
+def open_game():
+    global browser
+    browser = webdriver.Chrome()
+    browser.get('https://gabrielecirulli.github.io/2048/')
 
 
 # TODO: send up direction
@@ -30,7 +33,7 @@ from selenium.webdriver.common.by import By
 
 
 def main():
-    pass
+    open_game()
 
 
 if __name__ == '__main__':
