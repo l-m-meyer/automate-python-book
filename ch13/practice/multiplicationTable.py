@@ -38,8 +38,13 @@ for i in range(2, int(n) + 2):
     sheet.cell(row=i, column=1).font = headerFont
 
 
-# TODO: add formula to calculate values for each cell
+# add formula to calculate values for each cell
+for i in range(2, int(n) + 2):
+    col = get_column_letter(i)
+    for j in range(2, int(n) + 2):
+        formula = f'={col}1 * A{j}'
+        sheet[f'{col}{j}'].value = formula
 
 
-# TODO: save workbook
+# save workbook
 wb.save('multiplicationTable.xlsx')
