@@ -18,11 +18,6 @@ sheet['C5'] = 'Two merged cells.'
 wb.save('merged.xlsx')
 
 
-# get merged notebook
-wb = openpyxl('merged.xlsx')
-sheet = wb.active
-
-
 # unmerge cells
 sheet.unmerge_cells('A1:D3')    # Split up cells
 sheet.unmerge_cells('C5:D5')
