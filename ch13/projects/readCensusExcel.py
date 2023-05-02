@@ -26,5 +26,17 @@ for row in range(2, sheet.max_row + 1):
     county  = sheet['C' + str(row)].value
     pop     = sheet['D' + str(row)].value
 
+    # Make sure the key for this state exists.
+    countyData.setdefault(state, {})
+
+    # Make sure the key for this count in this state exists.
+    countyData[state].setdefault(county, {'tracts': 0, 'pop': 0})
+
+    # Each row represents one census tract, so increment by one.
+    countyData[state][county]['tracts'] += 1
+
+    # Increase the county pop by the pop in this census tract.
+    countyData[state][county]['pop'] += int(pop)
+
 
 # TODO: Open a new text file and write the contents of countyData to it.
