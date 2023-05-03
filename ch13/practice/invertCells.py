@@ -3,6 +3,7 @@
 
 
 import openpyxl, random
+from openpyxl.utils import get_column_letter
 
 
 def create_sample_data():
@@ -31,19 +32,31 @@ def create_sample_data():
     return filename
 
 
-# TODO: invert cells from sheet[x][y] to sheet[y][x]
-def invert_cells():
-    pass
+# invert cells from sheet[x][y] to sheet[y][x]
+def invert_cells(sheet, copy):
+    for r in tuple(sheet.rows):
+        for c in r:
+            col = get_column_letter(c.row)
+            row = c.column
+            
+            copy[f'{col}{row}'].value = c.value
+            
 
+# load file and copy it to invert
+def copy_file(filename):
+    wb = openpyxl.load_workbook(filename)
+    sheet = wb.active
+    wb_copy = openpyxl.Workbook()
+    sheet_copy = wb_copy.active
 
-# TODO: load file to invert
-def load_file(filename):
-    pass
+    return sheet, sheet_copy, wb_copy
 
 
 def main():
     filename = create_sample_data()
-    load_file(filename)
+    sheet, sheet_copy, wb_copy = copy_file(filename)
+    invert_cells(sheet, sheet_copy)
+    wb_copy.save('inverteddata.xlsx')
 
 
 if __name__ == '__main__':
