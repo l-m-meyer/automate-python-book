@@ -7,6 +7,11 @@ import sys
 
 
 # create new workbook
+def create_workbook():
+    wb = openpyxl.Workbook()
+    sheet = wb.active
+
+    return sheet
 
 
 # get files
