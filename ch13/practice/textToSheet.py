@@ -6,18 +6,25 @@ from openpyxl.utils import get_column_letter
 import sys
 
 
-# create new workbook
 def create_workbook():
+    # create new workbook
     wb = openpyxl.Workbook()
     sheet = wb.active
 
-    return sheet
+    return wb, sheet
 
 
-# get files
+def get_files():
+    # get files from command line
+    args = sys.argv[1:]
+
+    # filters list for only '.txt' files
+    files = list(filter(lambda f: f.endswith('.txt'), args))
+    
+    return files
 
 
-# open file
+# open each file
 
 
 # read each line of file to get a list of strings
@@ -31,6 +38,8 @@ def create_workbook():
 
 
 def main():
+    wb, sheet = create_workbook()
+    files = get_files()
     return
 
 if __name__ == '__main__':
